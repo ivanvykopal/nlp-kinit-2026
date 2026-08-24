@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+data/
+results/
+.ipynb_checkpoints/
+.superpowers/
+docs/
+scripts/
+tests/
+RL_seminar_20260819.ipynb
+config.py

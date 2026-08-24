@@ -1,0 +1,17 @@
+[project]
+name = "nlp-kinit-2026"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib",
+    "pytest",
+    "torch",
+    "pandas",
+    "transformers<5",
+    "nbformat",
+    "datasets",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
