@@ -220,7 +220,11 @@ def PROBE_GROUP_KEY(sample: dict) -> int:
     return sample["n_disks"]
 
 
-PROBE_GROUP_VALUES = [4]
+# All three training disk sizes, not just one: the mid-training probe drives
+# best-checkpoint selection in the GSPO notebook, so it must reflect the whole
+# held-out distribution. Probing a single size (e.g. [4]) makes the run keep
+# whichever step is best at that size, at the expense of the others.
+PROBE_GROUP_VALUES = [3, 4, 5]
 
 
 # %% [markdown]

@@ -13,7 +13,8 @@ class MetricProbe(TrainerCallback):
     """Periodically evaluate a fixed subset and record whichever metrics are asked for."""
 
     def __init__(self, samples, tokenizer, task,
-                 metrics=("solved", "optimal"), every=20, max_new_tokens=512, batch_size=16):
+                 metrics=("solved", "optimal"), every=20, max_new_tokens=512, batch_size=16,
+                 best_metric=None, best_dir=None):
         self.samples = list(samples)
         self.tokenizer = tokenizer
         self.task = task
@@ -23,6 +24,15 @@ class MetricProbe(TrainerCallback):
         self.batch_size = batch_size
         self.steps: list[int] = []
         self.history: dict[str, list[float]] = {m: [] for m in self.metrics}
+        # Best-checkpoint selection: when `best_dir` is set, snapshot the model
+        # every time `best_metric` reaches a new high on the probe subset, so a
+        # run that peaks then drifts can be rolled back to its best step. With
+        # no reference model to anchor the policy, this is the guardrail against
+        # over-optimisation.
+        self.best_metric = best_metric
+        self.best_dir = Path(best_dir) if best_dir else None
+        self.best_value: float = float("-inf")
+        self.best_step: int | None = None
 
     def _probe(self, model, step):
         completions = generate_completions(model, self.tokenizer, self.samples,
@@ -37,7 +47,30 @@ class MetricProbe(TrainerCallback):
             self.history[name].append(value)
             summary.append(f"{name} {value:.2f}" if value is not None else f"{name} n/a")
         print(f"  [probe @ step {step}] " + "  ".join(summary) + f"  (n={metrics['n']})")
+        self._maybe_save_best(model, metrics, step)
         return metrics
+
+    def _maybe_save_best(self, model, metrics, step):
+        if self.best_dir is None or self.best_metric is None:
+            return
+        value = metrics.get(self.best_metric)
+        if value is None or value <= self.best_value:
+            return
+        self.best_value, self.best_step = value, step
+        self.best_dir.mkdir(parents=True, exist_ok=True)
+        model.save_pretrained(str(self.best_dir))
+        self.tokenizer.save_pretrained(str(self.best_dir))
+        print(f"    new best {self.best_metric}={value:.3f} @ step {step} -> saved to {self.best_dir}")
+
+    def best_summary(self):
+        """Where the peak-probe checkpoint was saved, or dir=None if none was."""
+        recorded = self.best_dir is not None and self.best_step is not None
+        return {
+            "metric": self.best_metric,
+            "value": self.best_value if recorded else None,
+            "step": self.best_step,
+            "dir": str(self.best_dir) if recorded else None,
+        }
 
     def on_train_begin(self, args, state, control, model=None, **kwargs):
         self._probe(model, int(state.global_step))

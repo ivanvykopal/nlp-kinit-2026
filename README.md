@@ -30,7 +30,7 @@ can still follow it.
 
 | Topic | Google Colab | Jupyter Notebook |
 | --- | --- | --- |
-| Full fine-tuning (FFT) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<your-username>/nlp-kinit-2026/blob/main/examples/sft/fft.ipynb) | [fft.ipynb](examples/sft/fft.ipynb) |
+| Full fine-tuning (FFT) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ivanvykopal/nlp-kinit-2026/blob/main/examples/sft/fft.ipynb) | [fft.ipynb](examples/sft/fft.ipynb) |
 
 ### Reinforcement Learning with Verifiable Rewards (RLVR)
 
@@ -41,13 +41,13 @@ whole-trajectory reward.
 
 | Topic | Google Colab | Jupyter Notebook |
 | --- | --- | --- |
-| GSPO | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<your-username>/nlp-kinit-2026/blob/main/examples/rl/gspo.ipynb) | [gspo.ipynb](examples/rl/gspo.ipynb) |
+| GSPO | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ivanvykopal/nlp-kinit-2026/blob/main/examples/rl/gspo.ipynb) | [gspo.ipynb](examples/rl/gspo.ipynb) |
 
 ### Parameter-Efficient Fine-Tuning (PEFT)
 
 | Topic | Google Colab | Jupyter Notebook |
 | --- | --- | --- |
-| LoRA | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/<your-username>/nlp-kinit-2026/blob/main/examples/peft/lora.ipynb) | [lora.ipynb](examples/peft/lora.ipynb) |
+| LoRA | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ivanvykopal/nlp-kinit-2026/blob/main/examples/peft/lora.ipynb) | [lora.ipynb](examples/peft/lora.ipynb) |
 
 ## Further resources
 
